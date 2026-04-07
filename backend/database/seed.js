@@ -1,5 +1,6 @@
 import sequelize, { testConnection, syncDatabase } from '../src/config/database.js';
 import { AttendanceSubmission, Marks, QRCode, Session, Submission, User } from '../src/models/index.js';
+import { fileURLToPath } from 'url';
 
 const DEMO_PASSWORD = 'Demo@123';
 const QR_PIXEL =
@@ -12,7 +13,7 @@ const buildStudentSnapshot = (users) => users.map((user) => ({
 
 const createDeviceInfo = (platform, browser, os) => ({ platform, browser, os });
 
-const seedDatabase = async () => {
+export const seedDatabase = async ({ closeConnection = true, exitOnComplete = true } = {}) => {
   try {
     console.log('Starting database seeding for the client demo...');
 
@@ -379,13 +380,31 @@ const seedDatabase = async () => {
     console.log(`  Representative: rep.batch47@agri.demo / ${DEMO_PASSWORD}`);
     console.log(`  Student:        anudi.peiris@agri.demo / ${DEMO_PASSWORD}`);
 
-    await sequelize.close();
-    process.exit(0);
+    if (closeConnection) {
+      await sequelize.close();
+    }
+
+    if (exitOnComplete) {
+      process.exit(0);
+    }
   } catch (error) {
     console.error('Seeding failed:', error.message);
     console.error(error);
-    process.exit(1);
+
+    if (closeConnection) {
+      await sequelize.close();
+    }
+
+    if (exitOnComplete) {
+      process.exit(1);
+    }
+
+    throw error;
   }
 };
 
-seedDatabase();
+const isDirectExecution = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isDirectExecution) {
+  seedDatabase();
+}

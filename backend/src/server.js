@@ -11,6 +11,7 @@ import sequelize, { testConnection, syncDatabase } from './config/database.js';
 import { User, Session, Submission, QRCode, Marks, AttendanceSubmission } from './models/index.js';
 import AuthService from './services/AuthService.js';
 import QRCodeService from './services/QRCodeService.js';
+import { seedDatabase } from '../database/seed.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ const SEMESTER_OPTIONS = ['Semester 1', 'Semester 2'];
 const ATTENDANCE_MODE_OPTIONS = ['individual', 'representative_batch'];
 const STAFF_WORKSPACE_ROLES = ['admin', 'lecturer', 'demonstrator'];
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const SEED_ON_START = String(process.env.SEED_ON_START || 'false').toLowerCase() === 'true';
 
 const getDepartments = async () => sequelize.query(
   'SELECT id, name FROM Departments ORDER BY name ASC',
@@ -2111,6 +2113,11 @@ app.use((req, res) => {
 // Start server
 const startServer = async () => {
   try {
+    if (SEED_ON_START) {
+      console.log('SEED_ON_START enabled. Refreshing demo data before server start...');
+      await seedDatabase({ closeConnection: false, exitOnComplete: false });
+    }
+
     // Test database connection
     const connected = await testConnection();
     if (!connected) {
