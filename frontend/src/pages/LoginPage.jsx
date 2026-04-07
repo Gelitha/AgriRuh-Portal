@@ -14,10 +14,9 @@ import {
   Divider
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import toast from 'react-hot-toast'
+import api from '../services/api'
 
-const API_BASE = '/api'
 const adminWorkspaceRoles = ['admin', 'lecturer', 'demonstrator']
 const demoAccounts = [
   { role: 'Admin', email: 'admin.portal@agri.demo', password: 'Demo@123' },
@@ -63,7 +62,7 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const response = await axios.post(`${API_BASE}/auth/login`, {
+      const response = await api.post('/auth/login', {
         email: formData.email,
         password: formData.password
       })
