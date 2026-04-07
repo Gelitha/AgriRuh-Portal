@@ -1,0 +1,41 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.app-main {
+  flex: 1;
+  display: block;
+}
+
+.app-container {
+  padding-block: clamp(1rem, 2vw, 2rem);
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+.app-not-found {
+  padding-block: clamp(4rem, 8vw, 6rem);
+  text-align: center;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  background: #f9fafb;
+}
+
+.app-footer-title {
+  color: var(--color-text);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.app-footer-copy {
+  color: var(--color-text-muted);
+  max-width: 72ch;
+  margin: 0 auto;
+}

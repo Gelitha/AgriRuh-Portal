@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-primary: #2f6b4f;
+  --color-primary-light: #4c8a69;
+  --color-primary-dark: #1e4b37;
+  --color-secondary: #55734e;
+  --color-secondary-light: #73916c;
+  --color-secondary-dark: #39503a;
+  --color-accent: #9ab67f;
+  --color-surface: rgba(248, 252, 247, 0.9);
+  --color-surface-strong: #fffdf9;
+  --color-border: rgba(47, 107, 79, 0.14);
+  --color-background: #edf4ec;
+  --color-background-soft: #dde9dc;
+  --color-text: #213328;
+  --color-text-muted: #5c6f61;
+  --color-success: #2f7d57;
+  --color-warning: #b38a2e;
+  --color-error: #b3473a;
+  --color-info: #55734e;
+  --shadow-soft: 0 18px 48px rgba(34, 62, 42, 0.1);
+  --shadow-card: 0 20px 50px rgba(34, 62, 42, 0.08);
+  --hero-gradient: linear-gradient(135deg, #1f4f39 0%, #2f6b4f 52%, #9ab67f 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  background:
+    radial-gradient(circle at top, rgba(154, 182, 127, 0.18), transparent 32%),
+    linear-gradient(180deg, #f4f8f1 0%, #e6efe2 100%);
+}
+
+body {
+  font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(154, 182, 127, 0.18), transparent 32%),
+    linear-gradient(180deg, #f4f8f1 0%, #e6efe2 100%);
+  color: var(--color-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+code {
+  background-color: rgba(47, 107, 79, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 0.875em;
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+button,
+td,
+th {
+  overflow-wrap: anywhere;
+}
+
+::selection {
+  background: rgba(154, 182, 127, 0.3);
+}

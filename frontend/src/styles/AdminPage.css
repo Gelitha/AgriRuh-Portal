@@ -1,0 +1,383 @@
+/* =========================
+   ROOT VARIABLES
+========================= */
+:root {
+  --admin-green-dark: #0f2f1f;
+  --admin-green: #2f6b4f;
+  --admin-green-light: #9ab67f;
+
+  --admin-bg: #f4f7f5;
+  --admin-card: rgba(255, 255, 255, 0.85);
+
+  --admin-border: rgba(0, 0, 0, 0.08);
+  --admin-text: #1f2937;
+  --admin-muted: #6b7280;
+
+  --admin-radius: 1.2rem;
+}
+
+/* =========================
+   PAGE
+========================= */
+.admin-page {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--admin-bg);
+}
+
+/* =========================
+   HERO (FIXED DARK VERSION)
+========================= */
+.admin-hero {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 1.5rem;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+
+  /* 🔥 DARKER BACKGROUND */
+  background: linear-gradient(
+    135deg,
+    #081c12 0%,
+    #0f2f1f 40%,
+    #1f4d36 100%
+  );
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* 🌑 OVERLAY FOR TEXT VISIBILITY */
+.admin-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* LIGHT GLOW EFFECT */
+.admin-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05), transparent 30%);
+}
+
+/* KEEP TEXT ABOVE OVERLAY */
+.admin-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-hero-chip {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  font-size: 0.75rem;
+}
+
+.admin-hero-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0.5rem 0;
+  color: #fff;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.6);
+}
+
+.admin-hero-copy,
+.admin-hero-meta {
+  max-width: 42rem;
+  color: rgba(255,255,255,0.95);
+}
+
+/* =========================
+   METRIC CARDS
+========================= */
+.admin-metric-card {
+  min-height: 10rem;
+  border-radius: var(--admin-radius);
+  background: var(--admin-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--admin-border);
+  transition: 0.25s ease;
+}
+
+.admin-metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.admin-metric-body {
+  height: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-metric-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--admin-muted);
+}
+
+.admin-metric-value {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--admin-green-dark);
+}
+
+/* =========================
+   PANELS
+========================= */
+.admin-panel {
+  border-radius: var(--admin-radius);
+  background: var(--admin-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--admin-border);
+}
+
+.admin-panel-body {
+  padding: 1.5rem;
+}
+
+.admin-tabs-shell {
+  padding-block: 1rem;
+}
+
+.admin-workspace-tabs .MuiTabs-flexContainer {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-workspace-tabs .MuiTab-root {
+  min-height: 2.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--admin-border);
+  text-transform: none;
+  font-weight: 600;
+  color: var(--admin-muted);
+  padding-inline: 1rem;
+}
+
+.admin-workspace-tabs .Mui-selected {
+  background: rgba(47, 107, 79, 0.12);
+  color: var(--admin-green-dark) !important;
+}
+
+.admin-workspace-tabs .MuiTabs-indicator {
+  display: none;
+}
+
+.admin-section-heading {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.admin-section-copy {
+  color: var(--admin-muted);
+  font-size: 0.9rem;
+}
+
+/* =========================
+   GRID / ACTIONS
+========================= */
+.admin-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.admin-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-focus-card,
+.admin-role-tip {
+  height: 100%;
+}
+
+/* =========================
+   SESSION CARDS
+========================= */
+.admin-session-list {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.admin-session-card {
+  border-radius: 1rem;
+  padding: 1.2rem;
+  background: white;
+  border: 1px solid var(--admin-border);
+  transition: 0.2s ease;
+}
+
+.admin-session-card:hover {
+  border-color: var(--admin-green);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.admin-session-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+}
+
+/* =========================
+   REVIEW HEADER
+========================= */
+.admin-review-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+}
+
+.admin-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* =========================
+   FILTER GRID
+========================= */
+.admin-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.admin-filter-item {
+  min-width: 0;
+}
+
+/* =========================
+   TABLE
+========================= */
+.admin-table-shell {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--admin-border);
+  background: white;
+}
+
+.admin-table-scroll {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.admin-table {
+  min-width: 48rem;
+}
+
+.admin-table-head {
+  background: rgba(47, 107, 79, 0.08);
+  font-weight: 600;
+}
+
+.admin-cell-wrap {
+  max-width: 14rem;
+  word-break: break-word;
+}
+
+.admin-cell-top {
+  vertical-align: top;
+}
+
+/* =========================
+   GRADES
+========================= */
+.admin-grade-summary {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.admin-grade-value {
+  font-weight: 700;
+  color: var(--admin-green-dark);
+}
+
+.admin-grade-meta {
+  font-size: 0.78rem;
+  color: var(--admin-muted);
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+.admin-feedback-preview {
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+.admin-scroll-area {
+  scrollbar-gutter: stable;
+}
+
+.admin-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(47, 107, 79, 0.4);
+  border-radius: 10px;
+}
+
+.admin-scroll-area::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1024px) {
+  .admin-filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-review-header {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-table {
+    min-width: 40rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-session-list,
+  .admin-table-scroll {
+    max-height: none;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

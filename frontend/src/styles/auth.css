@@ -1,0 +1,53 @@
+.auth-layout {
+  min-height: clamp(36rem, 74vh, 52rem);
+}
+
+.auth-brand-panel {
+  height: 100%;
+  padding: clamp(0.5rem, 2vw, 1rem);
+  color: #ffffff;
+  background: linear-gradient(180deg, rgba(31, 79, 57, 0.98) 0%, rgba(47, 107, 79, 0.96) 58%, rgba(154, 182, 127, 0.92) 100%);
+}
+
+.auth-brand-content,
+.auth-form-content {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.1em;
+}
+
+.auth-copy {
+  max-width: 32rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.auth-form-card {
+  height: 100%;
+}
+
+.auth-info-box {
+  padding: 1rem 1.25rem;
+}
+
+.auth-link {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.auth-center-shell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding-block: 1.5rem;
+}
+
+.auth-compact-card {
+  width: 100%;
+  max-width: 520px;
+}

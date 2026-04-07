@@ -1,0 +1,141 @@
+:root {
+  --ui-surface: rgba(250, 253, 249, 0.94);
+  --ui-surface-strong: #fffdf9;
+  --ui-surface-soft: #e7f0e4;
+  --ui-border: rgba(47, 107, 79, 0.12);
+  --ui-border-strong: rgba(47, 107, 79, 0.18);
+  --ui-shadow: 0 16px 36px rgba(34, 62, 42, 0.08);
+  --ui-shadow-strong: 0 20px 40px rgba(34, 62, 42, 0.12);
+  --ui-radius-lg: 18px;
+  --ui-radius-md: 14px;
+  --ui-radius-sm: 10px;
+  --ui-space-1: clamp(0.75rem, 1.4vw, 1rem);
+  --ui-space-2: clamp(1rem, 2vw, 1.5rem);
+  --ui-space-3: clamp(1.25rem, 2.8vw, 2rem);
+}
+
+.page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3);
+  min-width: 0;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-1);
+  margin-bottom: var(--ui-space-2);
+  min-width: 0;
+}
+
+.page-title {
+  margin-bottom: 0.35rem;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.page-subtitle {
+  color: var(--color-text-muted);
+  max-width: 70ch;
+  overflow-wrap: anywhere;
+}
+
+.ui-surface-card {
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+  min-width: 0;
+}
+
+.ui-surface-card--soft {
+  background: var(--ui-surface-soft);
+}
+
+.ui-hero-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--ui-border);
+  background: linear-gradient(180deg, rgba(243, 249, 240, 0.98) 0%, rgba(255, 253, 249, 0.98) 100%);
+  box-shadow: var(--ui-shadow);
+  min-width: 0;
+}
+
+.ui-metric-card {
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-strong);
+  box-shadow: var(--ui-shadow);
+  min-width: 0;
+}
+
+.ui-empty-state {
+  text-align: center;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+  overflow-wrap: anywhere;
+}
+
+.ui-table-shell {
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-strong);
+  box-shadow: var(--ui-shadow);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.ui-table-head {
+  background: rgba(154, 182, 127, 0.16);
+}
+
+.ui-table-head .MuiTableCell-root {
+  font-weight: 700;
+}
+
+.ui-info-box {
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-soft);
+  border-radius: var(--ui-radius-md);
+}
+
+.ui-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ui-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--ui-space-1);
+  align-items: stretch;
+}
+
+.ui-action-grid > * {
+  min-width: 0;
+}
+
+.ui-responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.ui-responsive-table .MuiTable-root {
+  min-width: 42rem;
+}
+
+@media (max-width: 600px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header > * {
+    width: 100%;
+  }
+
+  .ui-responsive-table .MuiTable-root {
+    min-width: 36rem;
+  }
+}
