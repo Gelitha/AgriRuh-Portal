@@ -420,8 +420,9 @@ export const testConnection = async () => {
 };
 
 export const syncDatabase = async (force = false) => {
+  const alter = parseBooleanEnv(process.env.DB_SYNC_ALTER, false);
+
   try {
-    const alter = parseBooleanEnv(process.env.DB_SYNC_ALTER, false);
     await sequelize.sync({ force, alter });
     await ensureSqliteSchema();
     await ensureDefaultUsers();
@@ -429,7 +430,7 @@ export const syncDatabase = async (force = false) => {
     return true;
   } catch (error) {
     console.error('Database sync failed:', error.message);
-    return false;
+    throw error;
   }
 };
 

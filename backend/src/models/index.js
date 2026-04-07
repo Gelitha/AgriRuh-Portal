@@ -13,7 +13,9 @@ User.hasMany(AttendanceSubmission, { foreignKey: 'representative_id', as: 'atten
 
 Session.hasMany(Submission, { foreignKey: 'session_id', as: 'submissions' });
 Session.hasMany(AttendanceSubmission, { foreignKey: 'session_id', as: 'attendance_submissions' });
-Session.belongsTo(QRCode, { foreignKey: 'qr_code_id', as: 'qr_code' });
+// Avoid circular sync dependency on PostgreSQL: sessions tracks the current QR record,
+// while qr_codes keeps the required owning session reference.
+Session.belongsTo(QRCode, { foreignKey: 'qr_code_id', as: 'qr_code', constraints: false });
 
 Submission.belongsTo(User, { foreignKey: 'student_id', as: 'student' });
 Submission.belongsTo(Session, { foreignKey: 'session_id', as: 'session' });

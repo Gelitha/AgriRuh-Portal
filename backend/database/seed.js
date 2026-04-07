@@ -23,7 +23,10 @@ export const seedDatabase = async ({ closeConnection = true, exitOnComplete = tr
     }
 
     console.log('Resetting database schema...');
-    await syncDatabase(true);
+    const synced = await syncDatabase(true);
+    if (!synced) {
+      throw new Error('Database sync failed');
+    }
 
     console.log('Removing default bootstrap records...');
     await Marks.destroy({ where: {}, force: true });
