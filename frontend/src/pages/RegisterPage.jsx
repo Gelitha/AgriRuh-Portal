@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Card, CardContent, TextField, Button, Typography, Box, Alert, CircularProgress, Stack, Link, Grid, MenuItem, InputAdornment, FormControlLabel, Switch } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import toast from 'react-hot-toast'
+import api from '../services/api'
 
-const API_BASE = '/api'
 const degreeOptions = [
   {
     value: 'ARMT',
@@ -114,7 +113,7 @@ export default function RegisterPage() {
     }
 
     try {
-      await axios.post(`${API_BASE}/auth/register`, {
+      await api.post('/auth/register', {
         first_name: formData.first_name,
         last_name: formData.last_name,
         email: formData.email,
