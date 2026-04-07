@@ -9,7 +9,16 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const parseBooleanEnv = (value, defaultValue = false) => {
+  if (value === undefined) {
+    return defaultValue;
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(String(value).toLowerCase());
+};
+
 const DB_DIALECT = process.env.DB_DIALECT || 'sqlite';
+const DB_SSL = parseBooleanEnv(process.env.DB_SSL, DB_DIALECT === 'postgres');
 const FACULTY_DEPARTMENTS = [
   ['BL', 'Agricultural Biology'],
   ['EC', 'Agricultural Economics & Extension'],
@@ -40,6 +49,14 @@ if (DB_DIALECT === 'sqlite') {
       port: process.env.DB_PORT || 5432,
       dialect: 'postgres',
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
+      dialectOptions: DB_SSL
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false
+            }
+          }
+        : {},
       pool: {
         max: 5,
         min: 0,
@@ -49,14 +66,6 @@ if (DB_DIALECT === 'sqlite') {
     }
   );
 }
-
-const parseBooleanEnv = (value, defaultValue = false) => {
-  if (value === undefined) {
-    return defaultValue;
-  }
-
-  return ['1', 'true', 'yes', 'on'].includes(String(value).toLowerCase());
-};
 
 const queryRows = async (sql) => {
   const [rows] = await sequelize.query(sql);
