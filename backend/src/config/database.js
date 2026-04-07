@@ -30,6 +30,7 @@ const FACULTY_DEPARTMENTS = [
 ];
 const VALID_BATCHES = ['44', '45', '46', '47', '48'];
 const VALID_SEMESTERS = ['Semester 1', 'Semester 2'];
+const DEPARTMENTS_TABLE = 'departments';
 
 let sequelize;
 
@@ -159,29 +160,44 @@ const rebuildSqliteMarksTable = async () => {
   await sequelize.query('DROP TABLE marks_legacy');
 };
 
-const ensureSqliteSchema = async () => {
-  if (DB_DIALECT !== 'sqlite') {
-    return;
-  }
-
+const ensureDepartmentsTable = async () => {
   await sequelize.query(`
-    CREATE TABLE IF NOT EXISTS Departments (
+    CREATE TABLE IF NOT EXISTS ${DEPARTMENTS_TABLE} (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL
     )
   `);
 
   for (const [id, name] of FACULTY_DEPARTMENTS) {
-    await sequelize.query(
-      'INSERT OR REPLACE INTO Departments (id, name) VALUES (:id, :name)',
-      { replacements: { id, name } }
-    );
+    if (DB_DIALECT === 'sqlite') {
+      await sequelize.query(
+        `INSERT OR REPLACE INTO ${DEPARTMENTS_TABLE} (id, name) VALUES (:id, :name)`,
+        { replacements: { id, name } }
+      );
+    } else {
+      await sequelize.query(
+        `
+          INSERT INTO ${DEPARTMENTS_TABLE} (id, name)
+          VALUES (:id, :name)
+          ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name
+        `,
+        { replacements: { id, name } }
+      );
+    }
   }
+};
+
+const ensureSqliteSchema = async () => {
+  if (DB_DIALECT !== 'sqlite') {
+    return;
+  }
+
+  await ensureDepartmentsTable();
 
   if (!(await hasSqliteColumn('sessions', 'department_id'))) {
     await sequelize.query(`
       ALTER TABLE sessions
-      ADD COLUMN department_id TEXT REFERENCES Departments(id) DEFAULT 'BL'
+      ADD COLUMN department_id TEXT REFERENCES departments(id) DEFAULT 'BL'
     `);
   }
 
@@ -325,7 +341,7 @@ const ensureSqliteSchema = async () => {
     WHERE enrolled_students IS NULL OR TRIM(CAST(enrolled_students AS TEXT)) = ''
   `);
   await sequelize.query(`
-    DELETE FROM Departments
+    DELETE FROM ${DEPARTMENTS_TABLE}
     WHERE id NOT IN (${validDepartmentIds})
   `);
 };
@@ -424,6 +440,7 @@ export const syncDatabase = async (force = false) => {
 
   try {
     await sequelize.sync({ force, alter });
+    await ensureDepartmentsTable();
     await ensureSqliteSchema();
     await ensureDefaultUsers();
     console.log(`Database synchronized${alter ? ' with alter' : ''}`);

@@ -28,9 +28,10 @@ const ATTENDANCE_MODE_OPTIONS = ['individual', 'representative_batch'];
 const STAFF_WORKSPACE_ROLES = ['admin', 'lecturer', 'demonstrator'];
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 const SEED_ON_START = String(process.env.SEED_ON_START || 'false').toLowerCase() === 'true';
+const DEPARTMENTS_TABLE = 'departments';
 
 const getDepartments = async () => sequelize.query(
-  'SELECT id, name FROM Departments ORDER BY name ASC',
+  `SELECT id, name FROM ${DEPARTMENTS_TABLE} ORDER BY name ASC`,
   { type: QueryTypes.SELECT }
 );
 
@@ -1199,7 +1200,7 @@ app.get('/api/admin/overview', requireAuth, requireRole(...ADMIN_WORKSPACE_ROLES
       : { session_id: { [Op.in]: sessionIds.length ? sessionIds : ['__none__'] } };
 
     const [departmentCount, sessionCount, activeQrCount, submissionCount, pendingReviewCount] = await Promise.all([
-      sequelize.query('SELECT COUNT(*) as count FROM Departments', { type: QueryTypes.SELECT }),
+      sequelize.query(`SELECT COUNT(*) as count FROM ${DEPARTMENTS_TABLE}`, { type: QueryTypes.SELECT }),
       Session.count({ where: sessionScope }),
       QRCode.count({
         where: { is_active: true },
@@ -1446,10 +1447,15 @@ app.post('/api/admin/departments', requireAuth, requireRole('admin'), async (req
       });
     }
 
-    await sequelize.query(
-      'INSERT OR IGNORE INTO Departments (id, name) VALUES (:id, :name)',
-      { replacements: { id, name } }
-    );
+    const insertDepartmentSql = sequelize.getDialect() === 'sqlite'
+      ? `INSERT OR IGNORE INTO ${DEPARTMENTS_TABLE} (id, name) VALUES (:id, :name)`
+      : `
+          INSERT INTO ${DEPARTMENTS_TABLE} (id, name)
+          VALUES (:id, :name)
+          ON CONFLICT (id) DO NOTHING
+        `;
+
+    await sequelize.query(insertDepartmentSql, { replacements: { id, name } });
 
     const departments = await getDepartments();
     res.status(201).json({ success: true, data: departments });
@@ -1474,7 +1480,7 @@ app.put('/api/admin/departments/:departmentId', requireAuth, requireRole('admin'
     }
 
     await sequelize.query(
-      'UPDATE Departments SET name = :name WHERE id = :id',
+      `UPDATE ${DEPARTMENTS_TABLE} SET name = :name WHERE id = :id`,
       {
         replacements: { id: departmentId, name },
         type: QueryTypes.UPDATE
