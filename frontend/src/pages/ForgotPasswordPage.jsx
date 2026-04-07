@@ -1,11 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Alert, Box, Button, Card, CardContent, Grid, Link, Stack, TextField, Typography } from '@mui/material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import '../styles/auth.css'
-
-const API_BASE = '/api'
+import api from '../services/api'
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate()
@@ -44,7 +42,7 @@ export default function ForgotPasswordPage() {
     setSuccess('')
 
     try {
-      await axios.post(`${API_BASE}/auth/forgot-password/request`, {
+      await api.post('/auth/forgot-password/request', {
         email: requestEmail
       })
       setSuccess('If an account exists for that email, a reset link has been sent.')
@@ -71,7 +69,7 @@ export default function ForgotPasswordPage() {
     }
 
     try {
-      await axios.post(`${API_BASE}/auth/forgot-password/reset`, {
+      await api.post('/auth/forgot-password/reset', {
         email: emailFromLink,
         token: resetToken,
         new_password: resetForm.new_password

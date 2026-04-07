@@ -2,10 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, Typography, Box, CircularProgress, Button, Stack, Grid, Alert, Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Dialog, DialogTitle, DialogContent, DialogActions, Checkbox, FormControlLabel, TextField } from '@mui/material'
 import { QrCode2 as QrIcon, Edit as EditIcon } from '@mui/icons-material'
-import axios from 'axios'
 import toast from 'react-hot-toast'
-
-const API_BASE = '/api'
+import api from '../services/api'
 
 const getStatusColor = (status) => {
   if (status === 'on_time') return 'success'
@@ -36,17 +34,17 @@ export default function StudentDashboard() {
     try {
       const token = localStorage.getItem('access_token')
 
-      const userResponse = await axios.get(`${API_BASE}/users/me`, {
+      const userResponse = await api.get('/users/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setUser(userResponse.data.data)
 
       const [submissionsResponse, sessionsResponse, availableSessionsResponse] = await Promise.all([
-        axios.get(`${API_BASE}/my-submissions`, {
+        api.get('/my-submissions', {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get(`${API_BASE}/sessions`),
-        axios.get(`${API_BASE}/student/available-sessions`, {
+        api.get('/sessions'),
+        api.get('/student/available-sessions', {
           headers: { Authorization: `Bearer ${token}` }
         })
       ])
@@ -54,7 +52,7 @@ export default function StudentDashboard() {
       setAvailableSessions(availableSessionsResponse.data.data || [])
 
       if (userResponse.data.data?.role === 'representative') {
-        const representativeSessionsResponse = await axios.get(`${API_BASE}/representative/attendance-sessions`, {
+        const representativeSessionsResponse = await api.get('/representative/attendance-sessions', {
           headers: { Authorization: `Bearer ${token}` }
         })
         setRepresentativeSessions(representativeSessionsResponse.data.data || [])
@@ -83,7 +81,7 @@ export default function StudentDashboard() {
   const handleDirectSubmit = async (sessionId) => {
     try {
       const token = localStorage.getItem('access_token')
-      await axios.post(`${API_BASE}/submissions`, {
+      await api.post('/submissions', {
         session_id: sessionId,
         device_info: {
           source: 'dashboard_direct_submit'
@@ -102,7 +100,7 @@ export default function StudentDashboard() {
   const openAttendanceDialog = async (sessionId) => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await axios.get(`${API_BASE}/representative/sessions/${sessionId}/attendance`, {
+      const response = await api.get(`/representative/sessions/${sessionId}/attendance`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       const details = response.data.data
@@ -138,7 +136,7 @@ export default function StudentDashboard() {
 
     try {
       const token = localStorage.getItem('access_token')
-      await axios.post(`${API_BASE}/representative/sessions/${attendanceDialog.session.id}/attendance`, {
+      await api.post(`/representative/sessions/${attendanceDialog.session.id}/attendance`, {
         attendance_records: attendanceForm,
         confirmation_status: 'confirmed',
         notes: attendanceNotes

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const API_BASE = '/api'
+import api from '../services/api'
 const adminWorkspaceRoles = ['admin', 'lecturer', 'demonstrator']
 
 // ─── Inline styles as JS objects ─────────────────────────────────────────────
@@ -477,19 +475,19 @@ export default function HomePage() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const healthRes   = await axios.get(`${API_BASE}/health`).catch(() => null)
+        const healthRes   = await api.get('/health').catch(() => null)
         if (healthRes?.data) setBackendStatus(healthRes.data)
 
-        const sessionsRes = await axios.get(`${API_BASE}/sessions`).catch(() => null)
+        const sessionsRes = await api.get('/sessions').catch(() => null)
         if (sessionsRes?.data?.data) setSessions(sessionsRes.data.data)
 
         if (token) {
-          const meRes = await axios.get(`${API_BASE}/users/me`, {
+          const meRes = await api.get('/users/me', {
             headers: { Authorization: `Bearer ${token}` }
           }).catch(() => null)
           if (meRes?.data?.data?.role) setUserRole(meRes.data.data.role)
 
-          const availableRes = await axios.get(`${API_BASE}/student/available-sessions`, {
+          const availableRes = await api.get('/student/available-sessions', {
             headers: { Authorization: `Bearer ${token}` }
           }).catch(() => null)
           if (availableRes?.data?.data) setAvailableSessions(availableRes.data.data)

@@ -2,11 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Card, CardContent, Typography, Box, Button, TextField, Stack, Alert, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { Camera as CameraIcon } from '@mui/icons-material'
-import axios from 'axios'
 import jsQR from 'jsqr'
 import toast from 'react-hot-toast'
-
-const API_BASE = '/api'
+import api from '../services/api'
 
 export default function QRScannerPage() {
   const [searchParams] = useSearchParams()
@@ -25,7 +23,7 @@ export default function QRScannerPage() {
 
   const fetchSessions = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/sessions`)
+      const response = await api.get('/sessions')
       const nextSessions = response.data.data || []
       setSessions(nextSessions)
 
@@ -108,7 +106,7 @@ export default function QRScannerPage() {
 
     setSubmitting(true)
     try {
-      await axios.post(`${API_BASE}/submissions`, {
+      await api.post('/submissions', {
         session_id: formData.session_id,
         notes: formData.notes || null,
         device_info: {

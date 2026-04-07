@@ -27,9 +27,7 @@ import {
   Home as HomeIcon,
   AdminPanelSettings as AdminIcon
 } from '@mui/icons-material'
-import axios from 'axios'
-
-const API_BASE = '/api'
+import api from '../services/api'
 const adminWorkspaceRoles = ['admin', 'lecturer', 'demonstrator']
 const studentWorkspaceRoles = ['student', 'representative']
 
@@ -52,7 +50,7 @@ export default function AppHeader() {
     }
 
     try {
-      const response = await axios.get(`${API_BASE}/users/me`, {
+      const response = await api.get('/users/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setUser(response.data.data)

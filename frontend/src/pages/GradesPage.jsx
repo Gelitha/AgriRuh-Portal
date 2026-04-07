@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, Typography, Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Alert, Grid, LinearProgress, Chip, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-const API_BASE = '/api'
+import api from '../services/api'
 
 export default function GradesPage() {
   const navigate = useNavigate()
@@ -20,7 +18,7 @@ export default function GradesPage() {
   const fetchMarks = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await axios.get(`${API_BASE}/my-marks`, {
+      const response = await api.get('/my-marks', {
         headers: { Authorization: `Bearer ${token}` }
       })
       setMarks(response.data.data || [])
@@ -37,7 +35,7 @@ export default function GradesPage() {
 
   const fetchSessions = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/sessions`)
+      const response = await api.get('/sessions')
       const sessionsMap = {}
       response.data.data?.forEach((session) => {
         sessionsMap[session.id] = session.session_title || session.lab_name || `Lab ${session.id}`
