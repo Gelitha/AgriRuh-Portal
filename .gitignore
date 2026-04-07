@@ -21,4 +21,6 @@ coverage/
 *.db
 *.log
 *.pid
+*_pid
 *.job_id
+*_job_id
