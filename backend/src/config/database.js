@@ -99,7 +99,7 @@ const rebuildSqliteSubmissionsTable = async () => {
       submission_method TEXT DEFAULT 'manual_selection',
       file_url VARCHAR(255),
       device_info JSONB DEFAULT '{}',
-      location GEOMETRY,
+      location JSONB,
       ip_address INET,
       created_at DATETIME,
       updated_at DATETIME

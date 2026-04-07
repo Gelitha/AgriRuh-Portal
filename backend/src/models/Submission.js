@@ -38,7 +38,7 @@ const Submission = sequelize.define('Submission', {
     defaultValue: {}
   },
   location: {
-    type: DataTypes.GEOMETRY('POINT'),
+    type: DataTypes.JSONB,
     allowNull: true
   },
   ip_address: {
