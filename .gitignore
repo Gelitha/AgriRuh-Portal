@@ -20,3 +20,5 @@ coverage/
 .eslintcache
 *.db
 *.log
+*.pid
+*.job_id
